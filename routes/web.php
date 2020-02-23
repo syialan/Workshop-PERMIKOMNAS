@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/utama', 'KaryawanController@index')->name('utama');
+Route::get('/karyawan', 'KaryawanController@tampil')->name('karyawan');
