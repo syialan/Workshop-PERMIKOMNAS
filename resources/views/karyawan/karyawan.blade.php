@@ -1,39 +1,54 @@
-@extends('utama.index')
+@extends('master.layouts')
 
-@section('title', 'Halaman Data Karyawan')
+@section('title', 'Data Karyawan')
 
 @section('content')
-<div class="col-sm-4">
-    <div class="card" style="width: 18rem;">
-        <img src="https://pngimg.com/uploads/android_logo/android_logo_PNG23.png" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+<div class="col-md-12 col-sm-12">
+    <a href="{{ route('tambah') }}" class="btn btn-primary btn-sm mb-5"><i class="fa fa-user-plus"> Tambah Data</i></a>
+    @if (session('create'))
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('create') }}
     </div>
-</div>
-<div class="col-sm-4">
-    <div class="card" style="width: 18rem;">
-        <img src="https://image.flaticon.com/icons/png/512/49/49918.png" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+    @elseif(session('update'))
+    <div class="alert alert-warning">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('update') }}
     </div>
-</div>
-<div class="col-sm-4">
-    <div class="card" style="width: 18rem;">
-        <img src="https://cdn3.iconfinder.com/data/icons/social-media-logos-glyph/2048/5315_-_Apple-512.png" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+    @elseif(session('hapus'))
+    <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('hapus') }}
     </div>
+    @endif
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Alamat</th>
+                <th scope="col">Jabatan</th>
+                <th scope="col">OPSI</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $no = 1; ?>
+            @foreach ($data as $d)
+            <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ $d->nama }}</td>
+                <td>{{ $d->alamat }}</td>
+                <td>{{ $d->jabatan }}</td>
+                <td>
+                    <a href="/karyawan/edit/{{ $d->id }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i>
+                        Edit</a> 
+                    <a href="/karyawan/hapus/{{ $d->id }}" onclick="return confirm('Yakin data {{ $d->nama }} ingin di Hapus ? ')" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i> Hapus</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
+<script>
+    window.setTimeout(function() { $(".alert-success").fadeTo(500, 0).slideUp(500, function(){ $(this).remove(); }); }, 6000);
+    window.setTimeout(function() { $(".alert-warning").fadeTo(500, 0).slideUp(500, function(){ $(this).remove(); }); }, 6000);
+    window.setTimeout(function() { $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){ $(this).remove(); }); }, 6000);
+</script>
 @endsection
